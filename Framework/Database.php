@@ -1,11 +1,16 @@
 <?php
 
+// this is for to connect name space provided in composer.json
+namespace Framework;
+
+use PDO, PDOException, Exception;
+
 class Database
 {
     public $conn;
 
     /**
-     * Contructor for Database class
+     * Constructor for Database class
      * 
      * @param array $config
      */
@@ -22,7 +27,7 @@ class Database
         try {
             $this->conn = new PDO($dsn, $config['username'], $config['password'], $options);
         } catch (PDOException $e) {
-            throw new Exception("Database connetion failed: {$e->getMessage()}");
+            throw new Exception("Database connection failed: {$e->getMessage()}");
         }
     }
     /**
