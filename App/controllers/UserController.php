@@ -124,4 +124,21 @@ class UserController
 
         redirect('/');
     }
+
+    /**
+     * Log out user and kill session
+     * 
+     * @return void
+     */
+
+    public function logout()
+    {
+        Session::clearAll();
+
+        $params = session_get_cookie_params();
+        // 86400 is commonly used as a conventional way to ensure the cookie is definitely expired and will be removed.
+        setcookie('PHPSESSID', '', time() - 86400, $params['path'], $params['domain']);
+
+        redirect('/');
+    }
 }
