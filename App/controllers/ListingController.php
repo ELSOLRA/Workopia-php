@@ -27,7 +27,7 @@ class ListingController
     public function index()
     {
 
-        $listings = $this->db->query('SELECT * FROM listings ORDER BY created_at DESC LIMIT 6')->fetchAll();
+        $listings = $this->db->query('SELECT * FROM listings ORDER BY created_at DESC')->fetchAll();
 
 
         loadView('listings/index', [
@@ -202,6 +202,7 @@ class ListingController
 
     public function edit($params)
     {
+
         $id = $params['id'] ?? '';
         $params = [
             'id' => $id
@@ -213,6 +214,11 @@ class ListingController
         if (!$listing) {
             ErrorController::notFound('Listing not found');
             return;
+        }
+
+        if (!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this!');
+            return redirect('/listings/' . $listing->id);
         }
 
         loadView('listings/edit', ['listing' => $listing]);
@@ -237,6 +243,12 @@ class ListingController
         if (!$listing) {
             ErrorController::notFound('Listing not found');
             return;
+        }
+
+        // Authorization
+        if (!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this!');
+            return redirect('/listings/' . $listing->id);
         }
 
         $allowedFields = [
