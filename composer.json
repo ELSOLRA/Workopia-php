@@ -1,0 +1,15 @@
+{
+  "name": "elsolra/workopia-php",
+  "description": "Job listing application",
+  "authors": [
+    {
+      "name": "elsolra"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  }
+}
